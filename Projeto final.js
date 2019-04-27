@@ -19,14 +19,16 @@ function draw() {
     salto = true;
     contFrame = 0;
     }
-    if (salto) {
-		contFrame++; 
+    if (salto) 
+    {
+	contFrame++; 
+	    
+	yp = 0.25*(contFrame)*(contFrame - 37);
 		
-		yp = 0.25*(contFrame)*(contFrame - 37);
-		
-		if (yp > 0) { 
-			salto = false;
-			yp = 0;
+	if (yp > 0) 
+	{ 
+	salto = false;
+	yp = 0;
         }
     }
   }
