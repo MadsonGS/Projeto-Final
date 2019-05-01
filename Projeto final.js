@@ -3,32 +3,40 @@ let y = 175; //coordenada y do quadrado
 let xe = 400; //coordenada x da elipse
 let ye = 190; //coordenada y da elipse
 var salto = false;
-var yp = 0;
+var yp = 0; //altura do salto
 var contFrame = 0;
+var disparo = false; 
+var xd, yd; // coordenadas do disparo
+var vidas = 5; 
+var pontos = 0;
 
-function setup() {
+function setup() 
+{
   createCanvas(400, 400);
 
 }
 
+
 function draw() {
   createCanvas(400, 400)
+  textSize(10); //Tamanho do texto
+  text("Vidas: "+vidas, 10, 40); 
+  text("Pontos: "+pontos, 10, 50);
+  
   if(y >= 0)
   {
-    if(keyIsDown(87) && (! salto)){ //w  |salto|
+    if(keyIsDown(32) && (! salto)){ //espaço  |salto|
     salto = true;
     contFrame = 0;
     }
-    if (salto) 
-    {
-	contFrame++; 
-	    
-	yp = 0.25*(contFrame)*(contFrame - 37);
+    if (salto) {
+		contFrame++; 
 		
-	if (yp > 0) 
-	{ 
-	salto = false;
-	yp = 0;
+		yp = 0.25*(contFrame)*(contFrame - 37);
+		
+		if (yp > 0) { 
+			salto = false;
+			yp = 0;
         }
     }
   }
@@ -54,7 +62,27 @@ function draw() {
     {
       xe = 450; //elipse retorna para o inicio do cenário
     }
-  rect(x, y + yp, 35, 35);
-  line(0, 210, 400, 210);
+    
+  rect(x, y + yp, 35, 35); //corpo do jogador
+  line(0, 210, 400, 210); //terreno
+  
+  if (keyIsDown(39) && (! disparo) ) // seta direita ||disparo||
+  { 
+    disparo = true;
+    xd = x + 15;
+    yd = y + yp + 15; //yp é para o tiro acompanhar o salto
+  }
+  if (disparo) 
+  { 
+    xd = xd + 10;
+    if (xd > width) 
+    {
+      disparo = false; 
+    }
+  }
+  if (disparo) 
+  { 
+    ellipse(xd, yd, 8, 8); //desenhar disparo
+  }
 }
   
