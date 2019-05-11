@@ -1,7 +1,11 @@
-var x = 200
-var y = 450
-var xi = 20
-var yi = -10
+var x = 200;
+var y = 450;
+var xi = 50;
+var yi = -10;
+var xt;
+var yt;
+var tiro = false;
+
 function setup() 
 {
   createCanvas(400, 500);
@@ -27,12 +31,41 @@ function draw()
   {
    y+=5 
   }
-  if(yi<400)
+  
+  if(yi<520) //enemy
   {
     yi+=5
+    if(yi > 500)
+    {
+      yi = -10
+      xi = random(0, 400)
+    }
+    if(dist(yi, y) <= 10)
+    {
+     yi = -10 
+    }
   }
-   random(rect(xi, yi, 10, 10))
-
-  rect(x, y, 30, 30)
+  
+  if(keyIsDown(17) && (!tiro)) //condição para disparar
+  {
+    tiro = true //tiro
+    yt = y
+    xt = x
+  }
+    if(tiro)
+    {
+    
+     yt-=7
+    
+      if(yt < 0)
+      {
+       tiro = false
+      }
+    
+    }
+  circle(x, y, 15, 15) //corpo do jogador
+  circle(xt, yt, 4, 4) //corpo do tiro
+  rect(xi, yi, 10, 10) //inimigo
+    
 }
-
+  
