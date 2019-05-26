@@ -13,6 +13,8 @@ var posX = []
 var posY = []
 
 
+
+
 function setup() 
 {
   createCanvas(400, 500);
@@ -28,6 +30,8 @@ function setup()
 function draw() 
 {
   
+  //texto de tela
+  
   background(0, 0, 0);
   textSize(20);
   fill(135,206,235);
@@ -42,19 +46,19 @@ function draw()
   
   if(keyIsDown(65) && x>=0) //Esquerda - A
   {
-   x-=5 
+   x-=6 
   }
   if(keyIsDown(68) && x<=400) //Direita - D
   {
-   x+=5 
+   x+=6
   }
   if(keyIsDown(87) && y>=0) //Cima - W
   {
-   y-=5 
+   y-=6
   }
   if(keyIsDown(83) && y<=500) //Baixo - s
   {
-   y+=5 
+   y+=6
   }
   
   
@@ -62,22 +66,20 @@ function draw()
   
   //Comida
   
-  if(yi<520) //enemy
-  {
-    yi+=5
-    if(yi > 500)
-    {
-      yi = -10
-      xi = random(0, 400)
-    }
-    if(dist(yi, y) <= 10)
-    {
-     yi = -10 
-    }
-  }
-  for(i=0; i<5; i++)
-  {
-    circle(posX[i], posY[i], 20, 20)
+  
+for(i=0; i<5; i++)
+{
+  if (i%2 == 0) 
+{
+  fill(255, 0 , 0);
+  circle(posX[i], posY[i], 20, 20) 
+}
+
+if(i%2 != 0)
+{
+  fill(0,255,0);
+  circle(posX[i], posY[i], 20, 20)
+}
     posY[i] += 1.5*i
     
     if(posY[i] >= 500)
@@ -86,10 +88,10 @@ function draw()
       posY[i] = random(-200, -10)
       posX[i] = random(0, 400)
       
+      
     }
     
   }
-  
   
   
   
@@ -113,38 +115,88 @@ function draw()
       }
     
     }
-  
+
   
   
   //colisão
   
-  if(dist(posX[i], posY[i], x, y)<18)
+  
+  
+  
+  for(i=0; i<5; i++)
   {
-    if ( colisao == false) 
+    //Quando colidir com o alvo desejado ganha pontos
+    if(i%2 == 0)
     {
-      corBranco = ! corBranco;
-      posX[i] = random(0, 400)
-      posY[i] = random(-200, -10)
-      pontos+=5
-      colisao = true;
+      if(dist(x, y, posX[i], posY[i])<=20)
+    
+      {
+        if ( colisao == false) 
+        {
+          posX[i] = random(0, 400)
+          posY[i] = random(-200, -10)
+          corBranco = !corBranco;
+          pontos+=5
+          colisao = true;
+      
+        }
+    
+      }
+      else 
+      {
+        colisao = false;
+      }
+    }
+    
+    //Quando colidir com o alvo não dejesado perde vida
+    
+    if(i%2 != 0)
+    {
+      if(dist(x, y, posX[i], posY[i])<=20)
+    
+      {
+        if ( colisao == false) 
+        {
+          posX[i] = random(0, 400)
+          posY[i] = random(-200, -10)
+          corBranco = !corBranco;
+          vidas--
+          colisao = true;
+      
+        }
+    
+      }
+      else 
+      {
+        colisao = false;
+      }
     }
   }
-  else 
+  
+  
+  
+if (i%2 == 0 && corBranco) 
+{
+  fill(0, 0, 255);
+}
+else 
+{
+  if(i%2 != 0 && corBranco)
   {
-    colisao = false;
-  }
-  if ( corBranco ) 
-  {
-   fill(255);
- }
- else 
- {
    fill(255,0,0);
- }
+  }
+  else
+  {
+    fill(0, 255, 0)
+  }
+}
 
   
-  circle(x, y, 16, 16) //corpo do jogador
-  circle(xt, yt, 4, 4) //corpo do tiro
-  circle(200, 0, 50, 50) //inimigo
+  
+//Objetos
+  
+circle(x, y, 20, 20) //corpo do jogador
+circle(xt, yt, 4, 4) //corpo do tiro
+circle(200, 0, 50, 50) //inimigo
     
 }
