@@ -9,11 +9,19 @@ var colisao = false;
 var vidas = 5;
 var pontos = 0;
 var corBranco;
+var posX = []
+var posY = []
 
 
 function setup() 
 {
   createCanvas(400, 500);
+  
+  for(i=0; i<20; i++)
+  {
+    posX[i] = random(0, 400)
+    posY[i] = random(-200, 0)
+  }
   
 }
 
@@ -26,22 +34,33 @@ function draw()
   text("Vidas: "+vidas, 10, 60);
   text("Pontos: " + pontos, 10, 40);
   
-  if(keyIsDown(65) && x>=0) //a
+  
+  
+  
+  
+  //Movimento do jogador
+  
+  if(keyIsDown(65) && x>=0) //Esquerda - A
   {
    x-=5 
   }
-  if(keyIsDown(68) && x<=400) //d
+  if(keyIsDown(68) && x<=400) //Direita - D
   {
    x+=5 
   }
-  if(keyIsDown(87) && y>=0) //w
+  if(keyIsDown(87) && y>=0) //Cima - W
   {
    y-=5 
   }
-  if(keyIsDown(83) && y<=500) //s
+  if(keyIsDown(83) && y<=500) //Baixo - s
   {
    y+=5 
   }
+  
+  
+  
+  
+  //Comida
   
   if(yi<520) //enemy
   {
@@ -56,6 +75,26 @@ function draw()
      yi = -10 
     }
   }
+  for(i=0; i<5; i++)
+  {
+    circle(posX[i], posY[i], 20, 20)
+    posY[i] += 1.5*i
+    
+    if(posY[i] >= 500)
+    {
+      
+      posY[i] = random(-200, -10)
+      posX[i] = random(0, 400)
+      
+    }
+    
+  }
+  
+  
+  
+  
+  
+  //disparo
   
   if(keyIsDown(17) && (!tiro)) //condição para disparar
   {
@@ -74,15 +113,20 @@ function draw()
       }
     
     }
-  if(dist(xi, yi, x, y)<18)
+  
+  
+  
+  //colisão
+  
+  if(dist(posX[i], posY[i], x, y)<18)
   {
     if ( colisao == false) 
     {
       corBranco = ! corBranco;
-      yi = random(0, -20)
-      xi = random(0, 400)
-      vidas-=1
-       colisao = true;
+      posX[i] = random(0, 400)
+      posY[i] = random(-200, -10)
+      pontos+=5
+      colisao = true;
     }
   }
   else 
@@ -97,10 +141,10 @@ function draw()
  {
    fill(255,0,0);
  }
-  
+
   
   circle(x, y, 16, 16) //corpo do jogador
   circle(xt, yt, 4, 4) //corpo do tiro
-  rect(xi, yi, 20, 20) //inimigo
+  circle(200, 0, 50, 50) //inimigo
     
 }
