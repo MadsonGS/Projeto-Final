@@ -6,14 +6,15 @@ var xt;
 var yt;
 var tiro = false;
 var colisao = false;
-var vidas = 5;
 var fome = 600;
 var saude = 100
 var corBranco;
 var posX = []
 var posY = []
-
-
+var tela = 0
+var aux = 0    //Auxiliar para regeneração da saúde
+var aux1 = 0
+var nivel = 1
 
 
 function setup() 
@@ -31,14 +32,32 @@ function setup()
 function draw() 
 {
   
+  //Tela inicial
+  
+   if ( tela == 0) 
+   {
+    
+    background(0)
+    textSize(40)
+    fill(1,206,235)
+    text("Precione ENTER", 50, 370);
+    if (keyIsDown(ENTER) ) {
+       tela = 1 
+    }
+   }
+  
+  if(tela == 1)
+  {
+  
   //texto de tela
   
   background(0, 0, 0);
   textSize(20);
   fill(135,206,235);
-  text("Vidas: "+vidas, 10, 60);
   text("Fome: " + fome, 10, 40);
-  text("Saúde; " + saude, 10, 20)
+  text("Saúde: " + saude, 10, 20)
+  text("Saúde: " + aux1 + " " + nivel, 10, 60)
+  
   
   
   
@@ -66,65 +85,82 @@ function draw()
   
   
   
-  //Comida
+//Comida
   
   
-for(i=0; i<5; i++)
+for(i=0; i<20; i++)
 {
-  if (i%2 == 0) 
-{
-  fill(255, 0 , 0);
-  circle(posX[i], posY[i], 20, 20) 
-}
+  if(i<=5)
+  {
 
-if(i%2 != 0)
-{
-  fill(0,255,0);
-  circle(posX[i], posY[i], 20, 20)
-}
-    posY[i] += 1.5*i //Velocidade
-    
-    if(posY[i] >= 500)
+    //Comida saudável
+  
+    if (i%2 == 0) 
     {
-      
-      posY[i] = random(-200, -10)
-      posX[i] = random(0, 400)
-      
-      
+      fill(255, 0 , 0);
+      circle(posX[i], posY[i], 20, 20) 
     }
+
+    //Comida não saudável
+
+    if(i%2 != 0)
+    {
+      fill(0,255,0);
+      circle(posX[i], posY[i], 20, 20)
+    }
+  
+      posY[i] += 1.5*i //Velocidade
+    
+      if(posY[i] >= 500)
+      {
+        posY[i] = random(-200, -10)
+        posX[i] = random(0, 400)
+      }
+    
+    aux1++
+    
+    if(aux1 >= 15000) //Nivel 2
+    {
+      nivel = 2
+    }    
+  }
+  if(i>5 && i <=7 && nivel == 2) //No nivel 2 aumenta a quantidade de objetos
+  {
+    
+    //Comida saudável
+  
+    if (i%2 == 0) 
+    {
+      fill(255, 0 , 0);
+      circle(posX[i], posY[i], 20, 20) 
+    }
+
+    //Comida não saudável
+
+    if(i%2 != 0)
+    {
+      fill(0,255,0);
+      circle(posX[i], posY[i], 20, 20)
+    }
+  
+      posY[i] += i //Velocidade
+    
+      if(posY[i] >= 500)
+      {
+        posY[i] = random(-200, -10)
+        posX[i] = random(0, 400)
+      }
     
   }
+  
+  
+}
   
   //Fome
   
-  fome--
-  
-  
-  //disparo
-  
-  if(keyIsDown(17) && (!tiro)) //condição para disparar
-  {
-    tiro = true //tiro
-    yt = y
-    xt = x
-  }
-    if(tiro)
-    {
-    
-     yt-=7
-    
-      if(yt < 0)
-      {
-       tiro = false
-      }
-    
-    }
-
-  
+  fome--  
   
   //colisão
-  
-  
   
   
   for(i=0; i<5; i++)
@@ -133,7 +169,7 @@ if(i%2 != 0)
     
     if(i%2 == 0)
     {
-      if(dist(x, y, posX[i], posY[i])<=20)
+      if(dist(x, y, posX[i], posY[i])<=30)
     
       {
         if ( colisao == false) 
@@ -144,6 +180,10 @@ if(i%2 != 0)
           corBranco = !corBranco;
           fome+=100
           colisao = true;
+          if(saude < 100)
+          {
+            aux++
+          }
           
         }
     
@@ -166,6 +206,7 @@ if(i%2 != 0)
           posX[i] = random(0, 400)
           posY[i] = random(-200, -10)
           corBranco = !corBranco;
+          fome+=50
           saude-= 5
           colisao = true;
       
@@ -178,7 +219,11 @@ if(i%2 != 0)
       }
     }
   }
-  
+if(aux == 5 && saude < 100)
+{
+  saude+=5
+  aux = 0
+}
   
   
 if (i%2 == 0 && corBranco) 
@@ -197,8 +242,6 @@ else
   }
 }
 
-  
-//Fome
 
   
   
@@ -207,5 +250,37 @@ else
 circle(x, y, 20, 20) //corpo do jogador
 circle(xt, yt, 4, 4) //corpo do tiro
 circle(200, 0, 50, 50) //inimigo
-    
+}
+  
+  
+//Game Over
+  
+if(fome <= 0 || saude <= 0)
+{
+  tela = 3
+}
+  if(tela == 3)
+  {
+    background(0)
+    textSize(40)
+    fill(1,206,235)
+    text("Você morreu", 60, 250);
+    if (keyIsDown(ENTER) ) 
+    {
+      //resetando tudo
+      
+      tela = 1
+      fome = 600
+      saúde = 100
+      x = 200
+      y = 450
+      for(i=0; i<5; i++)
+      {
+        posX[i] = random(0, 400)
+        posY[i] = random(-200, -10)
+      }
+      
+      
+    }
+  }
 }
