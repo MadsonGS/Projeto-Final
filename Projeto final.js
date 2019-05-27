@@ -7,7 +7,8 @@ var yt;
 var tiro = false;
 var colisao = false;
 var vidas = 5;
-var pontos = 0;
+var fome = 600;
+var saude = 100
 var corBranco;
 var posX = []
 var posY = []
@@ -36,7 +37,8 @@ function draw()
   textSize(20);
   fill(135,206,235);
   text("Vidas: "+vidas, 10, 60);
-  text("Pontos: " + pontos, 10, 40);
+  text("Fome: " + fome, 10, 40);
+  text("Saúde; " + saude, 10, 20)
   
   
   
@@ -80,7 +82,7 @@ if(i%2 != 0)
   fill(0,255,0);
   circle(posX[i], posY[i], 20, 20)
 }
-    posY[i] += 1.5*i
+    posY[i] += 1.5*i //Velocidade
     
     if(posY[i] >= 500)
     {
@@ -93,7 +95,9 @@ if(i%2 != 0)
     
   }
   
+  //Fome
   
+  fome--
   
   
   //disparo
@@ -126,6 +130,7 @@ if(i%2 != 0)
   for(i=0; i<5; i++)
   {
     //Quando colidir com o alvo desejado ganha pontos
+    
     if(i%2 == 0)
     {
       if(dist(x, y, posX[i], posY[i])<=20)
@@ -133,12 +138,13 @@ if(i%2 != 0)
       {
         if ( colisao == false) 
         {
+          
           posX[i] = random(0, 400)
           posY[i] = random(-200, -10)
           corBranco = !corBranco;
-          pontos+=5
+          fome+=100
           colisao = true;
-      
+          
         }
     
       }
@@ -160,7 +166,7 @@ if(i%2 != 0)
           posX[i] = random(0, 400)
           posY[i] = random(-200, -10)
           corBranco = !corBranco;
-          vidas--
+          saude-= 5
           colisao = true;
       
         }
@@ -190,6 +196,9 @@ else
     fill(0, 255, 0)
   }
 }
+
+  
+//Fome
 
   
   
