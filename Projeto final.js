@@ -13,8 +13,19 @@ var posX = []
 var posY = []
 var tela = 0
 var aux = 0    //Auxiliar para regeneração da saúde
-var aux1 = 0
-var nivel = 1
+var n = 0
+
+
+
+function preload() 
+{
+  maça = loadImage('apple.png');
+  banana = loadImage('banana.png');
+  pizza = loadImage('pizza.png');
+  hotdog = loadImage('hotdog.png');
+  broc = loadImage('broc.png')
+}
+
 
 
 function setup() 
@@ -24,16 +35,13 @@ function setup()
   for(i=0; i<20; i++)
   {
     posX[i] = random(0, 400)
-    posY[i] = random(-200, 0)
+    posY[i] = random(-1000, 0)
   }
   
 }
 
 function draw() 
 {
-  
-  //Tela inicial
-  
    if ( tela == 0) 
    {
     
@@ -41,7 +49,9 @@ function draw()
     textSize(40)
     fill(1,206,235)
     text("Precione ENTER", 50, 370);
-    if (keyIsDown(ENTER) ) {
+     
+    if (keyIsDown(ENTER) ) 
+    {
        tela = 1 
     }
    }
@@ -56,7 +66,6 @@ function draw()
   fill(135,206,235);
   text("Fome: " + fome, 10, 40);
   text("Saúde: " + saude, 10, 20)
-  text("Saúde: " + aux1 + " " + nivel, 10, 60)
   
   
   
@@ -88,73 +97,64 @@ function draw()
 //Comida
   
   
-for(i=0; i<20; i++)
+for(i=0; i<10; i++)
 {
-  if(i<=5)
+
+  //Comida saudável
+  
+  if (i%2 == 0) 
   {
-
-    //Comida saudável
-  
-    if (i%2 == 0) 
+    fill(255, 0 , 0);
+    //circle(posX[i], posY[i], 20, 20)
+    if(i==2)
     {
-      fill(255, 0 , 0);
-      circle(posX[i], posY[i], 20, 20) 
+    imageMode(CENTER)
+    image(maça, posX[i], posY[i])
     }
-
-    //Comida não saudável
-
-    if(i%2 != 0)
+    if(i==4)
     {
-      fill(0,255,0);
-      circle(posX[i], posY[i], 20, 20)
+    imageMode(CENTER)
+    image(banana, posX[i], posY[i])
     }
-  
-      posY[i] += 1.5*i //Velocidade
-    
-      if(posY[i] >= 500)
-      {
-        posY[i] = random(-200, -10)
-        posX[i] = random(0, 400)
-      }
-    
-    aux1++
-    
-    if(aux1 >= 15000) //Nivel 2
+    if( i == 6)
     {
-      nivel = 2
-    }    
+    image(broc, posX[i], posY[i])
+    }
   }
-  if(i>5 && i <=7 && nivel == 2) //No nivel 2 aumenta a quantidade de objetos
-  {
     
-    //Comida saudável
-  
-    if (i%2 == 0) 
-    {
-      fill(255, 0 , 0);
-      circle(posX[i], posY[i], 20, 20) 
-    }
 
-    //Comida não saudável
+  //Comida não saudável
 
-    if(i%2 != 0)
+   if(i%2 != 0)
     {
-      fill(0,255,0);
-      circle(posX[i], posY[i], 20, 20)
-    }
-  
-      posY[i] += i //Velocidade
-    
-      if(posY[i] >= 500)
+    fill(0,255,0);
+    //circle(posX[i], posY[i], 20, 20)
+      
+      if(i==3)
       {
-        posY[i] = random(-200, -10)
-        posX[i] = random(0, 400)
+      imageMode(CENTER)
+      image(pizza, posX[i], posY[i])
       }
+      if(i==1)
+      {
+      imageMode(CENTER)
+      image(hotdog, posX[i], posY[i])
+      }
+    }
+  
+    posY[i] += 5
     
-  }
+    if(posY[i] >= 500)
+    {
+      
+      posY[i] = random(-1000, 0)
+      posX[i] = random(0, 400)
+      
+    }
+  }  
+
   
-  
-}
+
   
   //Fome
   
@@ -163,23 +163,26 @@ for(i=0; i<20; i++)
   //colisão
   
   
+  
+  
   for(i=0; i<5; i++)
   {
     //Quando colidir com o alvo desejado ganha pontos
     
     if(i%2 == 0)
     {
-      if(dist(x, y, posX[i], posY[i])<=30)
+      if(dist(x, y, posX[i], posY[i])<=25)
     
       {
         if ( colisao == false) 
         {
           
           posX[i] = random(0, 400)
-          posY[i] = random(-200, -10)
+          posY[i] = random(-1000, 0)
           corBranco = !corBranco;
           fome+=100
           colisao = true;
+          
           if(saude < 100)
           {
             aux++
@@ -204,14 +207,12 @@ for(i=0; i<20; i++)
         if ( colisao == false) 
         {
           posX[i] = random(0, 400)
-          posY[i] = random(-200, -10)
+          posY[i] = random(-1000, 0)
           corBranco = !corBranco;
           fome+=50
           saude-= 5
           colisao = true;
-      
         }
-    
       }
       else 
       {
@@ -248,8 +249,8 @@ else
 //Objetos
   
 circle(x, y, 20, 20) //corpo do jogador
-circle(xt, yt, 4, 4) //corpo do tiro
-circle(200, 0, 50, 50) //inimigo
+    
+  }
 }
   
   
@@ -283,4 +284,4 @@ if(fome <= 0 || saude <= 0)
       
     }
   }
-}
+
