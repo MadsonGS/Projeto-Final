@@ -1,5 +1,9 @@
 var x = 200;
 var y = 450;
+var xp = 200
+var yp = 250
+var xp2 = 200
+var yp2 = -250
 var colisao = false;
 var fome = 600;
 var saude = 100
@@ -15,6 +19,13 @@ var n = 0
 
 function preload() 
 {
+  //jogador
+  gordo = loadImage('gordo .png');
+  
+  //pista
+  pista = loadImage('pista.jpg');
+  pista2 = loadImage('pista.jpg');
+  
   //saudavel
   maça = loadImage('apple.png');
   banana = loadImage('banana.png');
@@ -86,9 +97,33 @@ function draw()
   
   //texto de tela
   
+  
   background(0, 0, 0);
   textSize(20);
   fill(135,206,235);
+    
+  //Imagem do cenario 
+    
+  image(pista2, xp2, yp2)
+  image(pista, xp, yp)
+  
+  //movimento do cenario
+  
+  yp += 5
+  yp2 += 5
+  
+  //reposicionando cenario
+    
+  if(yp >= 750)
+  {
+    yp = -250
+  }
+  if(yp2 >= 750)
+  {
+    yp2 = -250
+  }
+    
+  if(yp )
   
   if(nivel == 1)
   {
@@ -465,7 +500,7 @@ if(n >= 800) //nivel 3
 
 
 //Objetos
-  
+
 circle(x, y, 20, 20) //corpo do jogador
     
   }
