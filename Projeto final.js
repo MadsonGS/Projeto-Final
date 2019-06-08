@@ -86,7 +86,7 @@ function draw()
     textFont('Georgia')
     text("Pressione ENTER", 40, 370);
      
-    if (keyIsDown(ENTER) ) 
+    if (keyIsDown(ENTER)) 
     {
        tela = 1 
     }
@@ -172,13 +172,27 @@ function draw()
   
 for(i=0; i<20; i++)
 {
-
+  if(n <= 800)
+  {
+    posY[i] += 5
+  }
+  
+  if(posY[i] <= 550 && posY[i] >= 0 && n > 800)
+  {
+    posY[i] += 5
+  }
+  if(nivel == 3)
+  {
+    posY[i]+=5
+  }
+  
+  
   //Comida saudável
   
   if(i < 10 && nivel == 1 || i < 25 && nivel == 3) //Quantidade de inimigos de acordo com o nivel
   {
   
-   posY[i] += 5
+   
     
   if (i%2 == 0 && nivel == 1 || i%2 == 0 && nivel == 3) 
   {
@@ -280,7 +294,14 @@ for(i=0; i<20; i++)
   
      if(i >= 10 && i < 20 && nivel == 2) //objetos do nivel 2
     {
+      if(n >= 1000)
+      {
       posY[i] += 5
+      }
+      if(posY[i] <= 550 && posY[i] >= 0 && n > 1800)
+      {
+      posY[i] += 5
+      }
       fill(250)
       //circle(posX[i], posY[i], 20, 20)
       
@@ -339,14 +360,14 @@ for(i=0; i<20; i++)
       
   
     }
-    if(posY[i] >= 500 && nivel == 1 && n < 100)
+    if(posY[i] >= 500 && nivel == 1 && n <= 800)
     {
       
       posY[i] = random(-2000, 0)
       posX[i] = random(0, 400)
       
     }
-   if(posY[i] >= 500 && nivel == 2)
+   if(posY[i] >= 500 && nivel == 2 && n <= 1800)
     {
       
       posY[i] = random(-100, 0)
@@ -431,7 +452,6 @@ for(i=0; i<20; i++)
       {
         if ( colisao == false) 
         {
-          
           posX[i] = random(0, 400)
           posY[i] = random(-100, 0)
           corBranco = !corBranco;
@@ -489,11 +509,11 @@ if(nivel == 3)
    
 n++ //ponto imaginario
     
-if(n >= 200) //nivel 2
+if(n >= 1000) //nivel 2
 {
   nivel = 2
 }
-if(n >= 800) //nivel 3
+if(n >= 2000) //nivel 3
 {
   nivel = 3
 }
@@ -504,12 +524,12 @@ if(n >= 800) //nivel 3
 circle(x, y, 20, 20) //corpo do jogador
     
   }
-}
+
   
   
 //Game Over
   
-if(fome <= 0 || saude <= 0)
+if(nivel == 1 && fome <= 0 || nivel == 1 && saude <= 0 || nivel == 2 && saude <=0 || nivel == 3 && fome <= 0)
 {
   tela = 3
 }
@@ -518,24 +538,32 @@ if(fome <= 0 || saude <= 0)
     background(0)
     textSize(40)
     fill(1,206,235)
-    text("Você Está Obeso!", 60, 250);
-    text("Pressione 'Enter' para tentar novamente", 60, 300);
-    if (keyIsDown(ENTER) ) 
+    text("Você Está Obeso!", 50, 250);
+    textSize(20)
+    text("Pressione Enter para tentar novamente", 30, 300);
+    
+    if (keyIsDown(ENTER)) 
     {
-      //resetando tudo
       
-      tela = 1
+      //resetando tudo
+  
       fome = 600
       saúde = 100
+      nivel = 1
+      n = 0
       x = 200
       y = 450
+      yp = 250
+      yp2 = -250
+      aux = 0
+      
       for(i=0; i<20; i++)
       {
         posX[i] = random(0, 400)
         posY[i] = random(-2000, 0)
       }
-      
+      tela = 1
       
     }
   }
-
+}
