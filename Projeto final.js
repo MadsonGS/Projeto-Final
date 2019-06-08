@@ -16,6 +16,7 @@ var nivel = 1
 var n = 0
 var gordo = []
 var cont = 0
+var contl = 0
 var anima;
 
 
@@ -25,7 +26,7 @@ function preload()
   //jogador
   for(i=0; i<4; i++)
   {
-  gordo[i] = loadImage('gordo_'+i+'.png');
+  gordo[i] = loadImage('gordoa_'+i+'.png');
   }
   //pista
   pista = loadImage('pista.jpg');
@@ -75,7 +76,7 @@ function preload()
 
 function setup() 
 {
-  frameRate(60)
+  
   createCanvas(400, 500);
   
   
@@ -544,12 +545,17 @@ if(n >= 2000) //nivel 3
 
 //Objetos
 
-anima = gordo[3] 
+anima = gordo[cont] 
 imageMode(CENTER) 
 image(anima, x, y)
 //circle(x, y, 20, 20) //corpo do jogador
 
-cont++
+contl++
+  if(contl > 7)
+  {
+    cont++
+    contl = 0
+  }
     
 if(cont > 3)
 {
