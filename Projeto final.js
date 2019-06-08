@@ -5,26 +5,36 @@ var yp = 250
 var xp2 = 200
 var yp2 = -250
 var colisao = false;
-var fome = 600;
-var saude = 100
+var fome = 500;
+var peso = 100
 var corBranco;
 var posX = []
 var posY = []
 var tela = 0
-var aux = 0    //Auxiliar para regeneração da saúde
+var aux = 0    //Auxiliar para regeneração da peso
 var nivel = 1
 var n = 0
+var gordo = []
+var cont = 0
+var anima;
 
 
 
 function preload() 
 {
   //jogador
-  gordo = loadImage('gordo .png');
-  
+  for(i=0; i<4; i++)
+  {
+  gordo[i] = loadImage('gordo_'+i+'.png');
+  }
   //pista
   pista = loadImage('pista.jpg');
   pista2 = loadImage('pista.jpg');
+  
+  //
+  
+  balança = loadImage('Peso.png');
+  prato = loadImage('prato.png');
   
   //saudavel
   maça = loadImage('apple.png');
@@ -65,7 +75,9 @@ function preload()
 
 function setup() 
 {
+  frameRate(60)
   createCanvas(400, 500);
+  
   
   for(i=0; i<20; i++)
   {
@@ -77,7 +89,8 @@ function setup()
 
 function draw() 
 {
-   if ( tela == 0) 
+  
+   if (tela == 0) 
    {
     
     background(0)
@@ -122,21 +135,32 @@ function draw()
   {
     yp2 = -250
   }
-    
-  if(yp )
   
-  if(nivel == 1)
+  
+  if(nivel == 1 && n <= 820)
   {
-  text("Fome: " + fome, 10, 40);
-  text("Saúde: " + saude, 10, 20)
+  fill(0, 255, 0)  
+  imageMode(CENTER)
+  image(balança, 50, 30) //Figura da balança
+  text("Peso: " + peso, 70, 35)
+  
+  imageMode(CENTER)
+  image(prato, 250, 30)
+  text("Fome: " + fome, 270, 39);
   }
-  if(nivel == 2)
+  if(nivel == 2 && n <= 1820)
   {
-  text("Saúde: " + saude, 10, 20)
+  fill(0, 255, 0) 
+  imageMode(CENTER)
+  image(balança, 50, 30) //Figura da balança
+  text("Peso: " + peso, 70, 35)
   }
   if(nivel == 3)
   {
-  text("Fome: " + fome, 10, 40);
+  fill(0, 255, 0) 
+  imageMode(CENTER)
+  image(prato, 50, 30)
+  text("Fome: " + fome, 70, 39);
   }
   
   
@@ -177,7 +201,7 @@ for(i=0; i<20; i++)
     posY[i] += 5
   }
   
-  if(posY[i] <= 550 && posY[i] >= 0 && n > 800)
+  if(posY[i] <= 550 && posY[i] >= 0 && n > 800 && nivel == 1)
   {
     posY[i] += 5
   }
@@ -189,7 +213,7 @@ for(i=0; i<20; i++)
   
   //Comida saudável
   
-  if(i < 10 && nivel == 1 || i < 25 && nivel == 3) //Quantidade de inimigos de acordo com o nivel
+  if(i < 10 && nivel == 1 || i < 20 && nivel == 3) //Quantidade de inimigos de acordo com o nivel
   {
   
    
@@ -226,7 +250,6 @@ for(i=0; i<20; i++)
     imageMode(CENTER)
     image(cenoura, posX[i], posY[i])
     }
-    
     if(i==10)
     {
     imageMode(CENTER)
@@ -294,11 +317,11 @@ for(i=0; i<20; i++)
   
      if(i >= 10 && i < 20 && nivel == 2) //objetos do nivel 2
     {
-      if(n >= 1000)
+      if(n >= 1000 && n <= 1800)
       {
       posY[i] += 5
       }
-      if(posY[i] <= 550 && posY[i] >= 0 && n > 1800)
+      if(posY[i] <= 550 && posY[i] >= -5 && n > 1800)
       {
       posY[i] += 5
       }
@@ -407,7 +430,7 @@ for(i=0; i<20; i++)
           fome+=100
           colisao = true;
           
-          if(saude < 100)
+          if(peso > 100)
           {
             aux++
           }
@@ -434,7 +457,7 @@ for(i=0; i<20; i++)
           posY[i] = random(-2000, 0)
           corBranco = !corBranco;
           fome+=50
-          saude-= 5
+          peso+= 10
           colisao = true;
         }
       }
@@ -456,7 +479,7 @@ for(i=0; i<20; i++)
           posY[i] = random(-100, 0)
           corBranco = !corBranco;
           colisao = true;
-          saude -= 10
+          peso += 10
           fome+=50
         }
     
@@ -468,9 +491,9 @@ for(i=0; i<20; i++)
     }
 }
 
-if(aux == 5 && saude < 100)
+if(aux == 5 && peso > 100)
 {
-  saude+=5
+  peso-=5
   aux = 0
 }
   
@@ -521,15 +544,25 @@ if(n >= 2000) //nivel 3
 
 //Objetos
 
-circle(x, y, 20, 20) //corpo do jogador
+anima = gordo[3] 
+imageMode(CENTER) 
+image(anima, x, y)
+//circle(x, y, 20, 20) //corpo do jogador
+
+cont++
     
-  }
+if(cont > 3)
+{
+  cont = 0
+}
+    
+}
 
   
   
 //Game Over
   
-if(nivel == 1 && fome <= 0 || nivel == 1 && saude <= 0 || nivel == 2 && saude <=0 || nivel == 3 && fome <= 0)
+if(nivel == 1 && fome <= 0 || nivel == 1 && peso <= 0 || nivel == 2 && peso <=0 || nivel == 3 && fome <= 0)
 {
   tela = 3
 }
@@ -541,14 +574,15 @@ if(nivel == 1 && fome <= 0 || nivel == 1 && saude <= 0 || nivel == 2 && saude <=
     text("Você Está Obeso!", 50, 250);
     textSize(20)
     text("Pressione Enter para tentar novamente", 30, 300);
+
     
     if (keyIsDown(ENTER)) 
     {
       
       //resetando tudo
-  
-      fome = 600
-      saúde = 100
+      
+      peso = 100
+      fome = 500
       nivel = 1
       n = 0
       x = 200
@@ -560,10 +594,10 @@ if(nivel == 1 && fome <= 0 || nivel == 1 && saude <= 0 || nivel == 2 && saude <=
       for(i=0; i<20; i++)
       {
         posX[i] = random(0, 400)
-        posY[i] = random(-2000, 0)
+        posY[i] = random(-1000, 0)
       }
       tela = 1
-      
+      console.log(tela)
     }
   }
 }
