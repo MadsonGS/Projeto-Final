@@ -23,6 +23,12 @@ var anima;
 
 function preload() 
 {
+  
+  //tela inicial
+  obeso = loadImage('obeso.png');
+  gordotela = loadImage('gordotela.png');
+  forte = loadImage('forte.png');
+  
   //jogador
   for(i=0; i<4; i++)
   {
@@ -95,8 +101,10 @@ function draw()
    {
     
     background(0)
+    imageMode(CENTER)
+    image(gordotela, 200, 250)
     textSize(40)
-    fill(1,206,235)
+    fill(0,255,0)
     textFont('Georgia')
     text("Pressione ENTER", 40, 370);
      
@@ -574,9 +582,11 @@ if(nivel == 1 && fome <= 0 || nivel == 1 && peso <= 0 || nivel == 2 && peso <=0 
 }
   if(tela == 3)
   {
-    background(0)
+    background(100)
+    imageMode(CENTER)
+    image(obeso, 200, 150)
     textSize(40)
-    fill(1,206,235)
+    fill(0, 255, 0)
     text("Você Está Obeso!", 50, 250);
     textSize(20)
     text("Pressione Enter para tentar novamente", 30, 300);
@@ -605,5 +615,19 @@ if(nivel == 1 && fome <= 0 || nivel == 1 && peso <= 0 || nivel == 2 && peso <=0 
       tela = 1
       console.log(tela)
     }
+  }
+  if(n >= 3000)
+  {
+    tela = 4
+  }
+  if(tela == 4)
+  {
+    background(100)
+    imageMode(CENTER)
+    image(forte, 200, 350)
+    textSize(40)
+    fill(0, 255, 0)
+    text("Parabens!!", 100, 150);
+    text("Você Emagreceu", 50, 250);
   }
 }
