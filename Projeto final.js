@@ -428,7 +428,7 @@ for(i=0; i<20; i++)
     
     if(i%2 == 0 && i<10 && nivel == 1 || i%2 == 0 && i<10 && nivel == 3)
     {
-      if(dist(x, y, posX[i], posY[i])<=20)
+      if(dist(x, y, posX[i], posY[i])<=25)
       {
         if (colisao == false) 
         {
@@ -458,7 +458,7 @@ for(i=0; i<20; i++)
     if(i%2 != 0 && i<10 && nivel == 1)
     {
       
-      if(dist(x, y, posX[i], posY[i])<=20)
+      if(dist(x, y, posX[i], posY[i])<=25)
       {
         if (colisao == false) 
         {
@@ -480,7 +480,7 @@ for(i=0; i<20; i++)
     
     if(i>=10 && i<20 && nivel == 2 || i>=10 && i<20 && nivel == 3)
     {
-      if(dist(x, y, posX[i], posY[i])<=20)
+      if(dist(x, y, posX[i], posY[i])<=25)
       {
         if ( colisao == false) 
         {
@@ -585,6 +585,8 @@ if(nivel == 1 && fome <= 0 || nivel == 1 && peso <= 0 || nivel == 2 && peso <=0 
     background(100)
     imageMode(CENTER)
     image(obeso, 200, 150)
+    image(prato, 220, 180)
+    image(refri, 160, 180)
     textSize(40)
     fill(0, 255, 0)
     text("Você Está Obeso!", 50, 250);
